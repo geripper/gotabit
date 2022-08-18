@@ -861,6 +861,9 @@ func RegisterSwaggerAPI(ctx client.Context, rtr *mux.Router) {
 	staticServer := http.FileServer(statikFS)
 	rtr.PathPrefix("/static/").Handler(http.StripPrefix("/static/", staticServer))
 	rtr.PathPrefix("/swagger/").Handler(staticServer)
+	rtr.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/swagger/", http.StatusFound)
+	})
 }
 
 // RegisterTxService implements the Application.RegisterTxService method.
