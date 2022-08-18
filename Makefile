@@ -148,17 +148,17 @@ clean:
 ###                                  Proto                                  ###
 ###############################################################################
 
-proto-all: proto proto-swagger
+proto-all: proto docs
 
 proto:
 	@echo "Generate Protobuf"
 	./scripts/protoc-gen.sh
 
-proto-swagger:
+docs:
 	@echo "Generating Protobuf swagger files"
 	./scripts/protoc-swagger-gen.sh
 
-.PHONY: lint proto proto-swagger
+.PHONY: lint proto docs
 
 ###############################################################################
 ###                                Linting                                  ###

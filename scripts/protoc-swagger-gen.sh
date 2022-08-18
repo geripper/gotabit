@@ -26,11 +26,14 @@ done
 
 cd ../client/docs
 
-swagger-combine ./config.json -o ./swagger/swagger.yaml -f yaml --continueOnConflictingPaths true --includeDefinitions true
+yarn install
+yarn combine
+yarn convert
+yarn build
 
 cd ../../
 
 rm -rf ./tmp-swagger-gen
 
 # generate binary for static server
-statik -f -src=./client/docs/swagger -dest=./client/docs
+statik -src=client/docs/static -dest=client/docs -f -m
