@@ -98,7 +98,6 @@ import (
 	monitoringpkeeper "github.com/tendermint/spn/x/monitoringp/keeper"
 	monitoringptypes "github.com/tendermint/spn/x/monitoringp/types"
 
-	"github.com/gotabit/gotabit/docs"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 	// unnamed import of statik for swagger UI support
 	_ "github.com/gotabit/gotabit/client/docs/statik"
@@ -847,10 +846,7 @@ func (app *App) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConfig
 	ModuleBasics.RegisterRESTRoutes(clientCtx, apiSvr.Router)
 	ModuleBasics.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
 
-	// register app's OpenAPI routes.
-	apiSvr.Router.Handle("/static/openapi.yml", http.FileServer(http.FS(docs.Docs)))
-	apiSvr.Router.HandleFunc("/", openApiHandler(Name, "/static/openapi.yml"))
-
+	// register app's Swagger routes.
 	if apiConfig.Swagger {
 		RegisterSwaggerAPI(clientCtx, apiSvr.Router)
 	}
@@ -861,8 +857,10 @@ func RegisterSwaggerAPI(ctx client.Context, rtr *mux.Router) {
 	if err != nil {
 		panic(err)
 	}
+
 	staticServer := http.FileServer(statikFS)
-	rtr.PathPrefix("/swagger/").Handler(http.StripPrefix("/swagger/", staticServer))
+	rtr.PathPrefix("/static/").Handler(http.StripPrefix("/static/", staticServer))
+	rtr.PathPrefix("/swagger/").Handler(staticServer)
 }
 
 // RegisterTxService implements the Application.RegisterTxService method.
