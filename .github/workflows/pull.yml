@@ -1,4 +1,4 @@
-name: "Code Scanning - Action"
+name: "Run Pull check."
 
 on:
   pull_request:
