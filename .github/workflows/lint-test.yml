@@ -18,35 +18,37 @@ jobs:
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
+        uses: github/codeql-action/init@v2
         with:
           languages: 'go'
           queries: crypto-com/cosmos-sdk-codeql@main,security-and-quality
 
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v1
+        uses: github/codeql-action/autobuild@v2
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v1
+        uses: github/codeql-action/analyze@v2
 
-  lints:
-    name: Lints
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-
-      - name: Run lints
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+      - name: Run lint
         run: |
           make lint
 
   run-test:
-    name: Lints
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
-
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
       - name: Run lints
         run: |
           make
