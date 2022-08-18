@@ -168,7 +168,7 @@ lint:
 ifeq (,$(shell which golangci-lint))
 	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.46.2
 endif
-	golangci-lint run --out-format=tab
+	golangci-lint run --out-format=tab --timeout=10m
 
 format:
 ifeq (,$(shell which goimports))
