@@ -50,6 +50,7 @@ jobs:
       - uses: actions/setup-go@v3
         with:
           go-version: 1.19
-      - name: Run lints
+      - name: Run compile
         run: |
           make
+          gotabitd version --long
